@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards JS</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar dashboard-navbar">
+        <div class="nav-logo">Flashcards JS</div>
+        <ul class="nav-links">
+            <li><a href="#home" id="navHome"><span class="nav-icon">🏠</span> Início</a></li>
+            <li><a href="#game" id="navGame"><span class="nav-icon">🃏</span> Jogar</a></li>
+            <li><a href="#results" id="navResults"><span class="nav-icon">📊</span> Resultados</a></li>
+        </ul>
+        <div class="nav-user">
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Cesaltino" alt="Avatar" class="user-avatar">
+            <span class="user-name">Cesaltino</span>
+            <button class="help-btn" id="openHelp" title="Ajuda">?</button>
+        </div>
+    </nav>
+    <div id="notification" class="notification"></div>
+    <div id="loader" class="loader-overlay">
+        <div class="loader"></div>
+    </div>
+    <div id="modalHelp" class="modal-overlay">
+        <div class="modal">
+            <img src="https://img.icons8.com/color/96/idea.png" alt="Ajuda" style="margin-bottom:12px;">
+            <h2>Como jogar?</h2>
+            <p>Escolha uma categoria, responda os flashcards e acompanhe seu progresso. Compartilhe seus resultados!</p>
+            <button id="closeHelp" class="start-btn">Fechar</button>
+        </div>
+    </div>
+    <div id="spa-container">
+        <section id="homePage" class="spa-page active">
+            <header class="main-header">
+                <h1>Bem-vindo ao <span style="color:#6366f1">Flashcards JS</span></h1>
+                <p class="subtitle">Pratique, desafie-se e aprenda de forma divertida!</p>
+            </header>
+            <div class="home-content">
+                <img src="https://img.icons8.com/color/96/flash-on.png" alt="Flashcards" style="margin-bottom:24px;">
+                <button class="start-btn" id="startGame">Começar Jogo</button>
+            </div>
+        </section>
+        <section id="gamePage" class="spa-page">
+            <main class="game-layout dashboard-layout">
+                <aside class="sidebar">
+                    <h2><span style="color:#6366f1">Categorias</span></h2>
+                    <ul id="minhas_categorias">
+                        <!-- categorias dinâmicas -->
+                    </ul>
+                    <form id="form_categoria" onsubmit="novaCategoria(event)">
+                        <input type="text" id="categoria" placeholder="Nova categoria...">
+                        <button type="submit">Cadastrar</button>
+                    </form>
+                </aside>
+                <section class="game-area">
+                    <div class="progress-bar">
+                        <div class="progress" id="progress"></div>
+                    </div>
+                    <div class="flashcard animated glass-card">
+                        <div class="card-header">
+                            <span class="category" id="categoriaAtual">Categoria</span>
+                            <span class="card-count" id="cardCount">1/10</span>
+                        </div>
+                        <div class="question" id="question">Pergunta</div>
+                        <div class="answer" id="answer">Resposta</div>
+                        <div class="controls">
+                            <button id="showAnswer">Mostrar Resposta</button>
+                            <button id="nextCard">Próximo</button>
+                        </div>
+                        <div class="score" id="score">Pontuação: 0</div>
+                    </div>
+                </section>
+            </main>
+        </section>
+        <section id="resultsPage" class="spa-page">
+            <header class="main-header">
+                <h1>Resultados</h1>
+                <p class="subtitle">Veja seu desempenho e compartilhe!</p>
+            </header>
+            <div class="results-content">
+                <div class="results-summary glass-card" id="resultsSummary">
+                    <!-- Resultados dinâmicos -->
+                </div>
+                <button class="start-btn" id="playAgain">Jogar Novamente</button>
+            </div>
+        </section>
+    </div>
+    <footer class="main-footer">
+        &copy; 2025 Flashcards JS. Desenvolvido por Cesaltino Felix.
+    </footer>
+    <script>
+    // SPA navigation logic (deixe a lógica JS para você implementar)
+    document.querySelectorAll('.nav-links a, .dashboard-sidebar a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = this.getAttribute('href').replace('#','') + 'Page';
+            document.querySelectorAll('.spa-page').forEach(page => page.classList.remove('active'));
+            document.getElementById(target).classList.add('active');
+        });
+    });
+    document.getElementById('startGame').onclick = () => {
+        document.querySelectorAll('.spa-page').forEach(page => page.classList.remove('active'));
+        document.getElementById('gamePage').classList.add('active');
+    };
+    document.getElementById('playAgain').onclick = () => {
+        document.querySelectorAll('.spa-page').forEach(page => page.classList.remove('active'));
+        document.getElementById('gamePage').classList.add('active');
+    };
+    // Loader e modal de ajuda
+    document.getElementById('openHelp').onclick = () => {
+        document.getElementById('modalHelp').style.display = 'flex';
+    };
+    document.getElementById('closeHelp').onclick = () => {
+        document.getElementById('modalHelp').style.display = 'none';
+    };
+    // Loader exemplo (esconda após 1s)
+    setTimeout(()=>{
+        document.getElementById('loader').style.display = 'none';
+    }, 1000);
+    // Notificação exemplo
+    function showNotification(msg) {
+        const n = document.getElementById('notification');
+        n.textContent = msg;
+        n.classList.add('show');
+        setTimeout(()=>n.classList.remove('show'), 2500);
+    }
+    // Exemplo: showNotification('Bem-vindo!');
+    </script>
+    <script src="index.js"></script>
+</body>
+</html>
